@@ -218,8 +218,3 @@ GROQ_API_KEY=your-api-key-here
 - **Frontend:** React.js + Tailwind CSS
 - **Backend:** Flask + Scrapy
 
----
-
-
-💡 **Enjoy summarizing the web in seconds! 🚀**  
-Would you like me to generate the browser extension **manifest.json** or a deployment script? 🚀
