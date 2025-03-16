@@ -3,7 +3,7 @@
   "name": "Smart Article Summarizer",
   "version": "1.0",
   "description": "Displays summarized articles from a web page.",
-  "permissions": ["storage", "scripting", "activeTab"],
+  "permissions": ["tabs", "activeTab", "storage"],
   "host_permissions": ["https://*/*", "http://*/*"],
   "action": {
     "default_popup": "index.html",

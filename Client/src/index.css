@@ -25,3 +25,15 @@
 ::-webkit-scrollbar-thumb:hover {
   background: rgb(111, 111, 111);
 }
+.animate-round-slow {
+  animation: round infinite 2.5s linear;
+}
+
+@keyframes round {
+  0% {
+    rotate: 0deg;
+  }
+  100% {
+    rotate: 360deg;
+  }
+}

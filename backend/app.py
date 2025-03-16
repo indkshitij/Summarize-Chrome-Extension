@@ -1,11 +1,11 @@
 from flask import Flask, request, jsonify
 from flask_cors import CORS
+import requests
 from scrapy.crawler import CrawlerProcess
 from scrapy.utils.project import get_project_settings
 from scrapy.signalmanager import dispatcher
 from scraper.scraper.spiders.my_spider import MySpider
 from scrapy import signals
-import requests
 import os
 import time
 import threading
@@ -32,10 +32,10 @@ def run_scrapy_spider(url):
     process.start(stop_after_crawl=False)
 
 # ✅ Function to summarize content using Groq API
-def generate_summary(scraped_data):
+def generate_summary(scraped_data ,language,wordCount):
     url = "https://api.groq.com/openai/v1/chat/completions"
-    api_key = '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'
-
+    api_key = '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'
+    
     headers = {
         "Content-Type": "application/json",
         "Authorization": f"Bearer {api_key}"
@@ -45,7 +45,9 @@ def generate_summary(scraped_data):
         "model": "llama-3.3-70b-versatile",
         "messages": [{
             "role": "user",
-            "content": f"Summarize the following content and give important points where necessay and if u give content in point please use numbering in short:\n{scraped_data}"
+            "content": 
+                # f"Provide a concise summary of the following content in {language}. If key points are needed, use numbered lists. If there is nothing to summarize, simply state so. Ensure the summary starts with the main topic.\n\n{scraped_data}"
+                f"Summarize the following content in {language} around {wordCount} words, adapting to its type: News Article → Headline + key takeaways Research Paper → Abstract + key conclusions Legal Document → Important clauses only Blog Post → Key insights + action points Code Documentation → Functionality overview + key methods YouTube Video Transcript → Short script summary Technical Report → Summary of findings + key recommendations Product Review → Pros, cons, and final verdict Interview/Podcast Transcript → Key quotes + major discussion points Social Media Post/Tweet Thread → Condensed key ideas Use numbered points where necessary. If no summary is possible, state so. Ensure the summary starts with the main topic. \n\n{scraped_data}"
         }]
     }
 
@@ -61,6 +63,8 @@ def generate_summary(scraped_data):
 def scrape_website():
     data = request.get_json()
     url = data.get('url')
+    language = data.get('language', 'en')
+    wordCount = data.get('wordCount')  
 
     if not url:
         return jsonify({"error": "URL is required"}), 400
@@ -82,7 +86,7 @@ def scrape_website():
         }), 400
 
     # ✅ Generate summary
-    summary = generate_summary(scraped_data)
+    summary = generate_summary(scraped_data, language,wordCount)
 
     return jsonify({
         "message": "Scraping completed successfully.",
