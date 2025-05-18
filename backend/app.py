@@ -9,6 +9,9 @@ from scrapy import signals
 import os
 import time
 import threading
+from crochet import setup, wait_for
+import requests
+import json
 
 app = Flask(__name__)
 CORS(app, resources={r"/*": {"origins": "*"}})
@@ -34,7 +37,8 @@ def run_scrapy_spider(url):
 # ✅ Function to summarize content using Groq API
 def generate_summary(scraped_data ,language,wordCount):
     url = "https://api.groq.com/openai/v1/chat/completions"
-    api_key = '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'
+    # api_key = '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'
+    api_key='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'
     
     headers = {
         "Content-Type": "application/json",
@@ -61,14 +65,19 @@ def generate_summary(scraped_data ,language,wordCount):
 # ✅ Flask API endpoint to trigger Scrapy Spider
 @app.route('/scrape', methods=['POST'])
 def scrape_website():
+    print("✅ Received a request at /scrape")
     data = request.get_json()
+    print(f"✅ Raw request data: {data}")
     url = data.get('url')
     language = data.get('language', 'en')
     wordCount = data.get('wordCount')  
+    
+    print(f"✅ Received URL: {url}, Language: {language}, Word Count: {wordCount}")  # Check extracted values
 
     if not url:
         return jsonify({"error": "URL is required"}), 400
 
+    print(f"✅ [INFO] Starting Scrapy Spider for URL: {url}")
     print(f"✅ [INFO] Starting Scrapy Spider for URL: {url}")
     
     # ✅ Run the spider in a new thread

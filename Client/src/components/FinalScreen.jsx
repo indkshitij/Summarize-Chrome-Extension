@@ -7,6 +7,20 @@ import { AppContext } from "../Context/AppContext";
 import LogoSection from "./LogoSection";
 import Summary from "./summary";
 
+const shortFormLanguages = {
+    English: "en",
+    Hindi: "hi",
+    Punjabi: "pa",
+    Gujarati: "gu",
+    Marathi: "mr",
+    Tamil: "ta",
+    Telugu: "te",
+    Malayalam: "ml",
+    Bengali: "bn",
+    Urdu: "ur",
+    Kannada: "kn",
+    Sindhi: "sd",
+  };
 const FinalScreen = () => {
   const {
     summarizePage,
@@ -31,8 +45,9 @@ const FinalScreen = () => {
     const getVoices = () => {
       const availableVoices = window.speechSynthesis.getVoices();
 
+      
       const filteredVoices = availableVoices.filter((voice) =>
-        Object.values(languages).some((code) => voice.lang.startsWith(code))
+        Object.values(shortFormLanguages).some((code) => voice.lang.startsWith(code))
       );
 
       setVoices(filteredVoices);

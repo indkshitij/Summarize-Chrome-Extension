@@ -13,19 +13,19 @@ const AppContextProvider = (props) => {
   const [wordCount, setWordCount] = useState("150");
   const [language, setLanguage] = useState("English");
 
-  const languages = {
-    English: "en",
-    Hindi: "hi",
-    Punjabi: "pa",
-    Gujarati: "gu",
-    Marathi: "mr",
-    Tamil: "ta",
-    Telugu: "te",
-    Malayalam: "ml",
-    Bengali: "bn",
-    Urdu: "ur",
-    Kannada: "kn",
-    Sindhi: "sd",
+  
+   const languages = {
+    English: "English",
+    Hindi: "Hindi",
+    Punjabi: "Punjabi",
+    Gujarati: "Gujarati",
+    Marathi: "Marathi",
+    Tamil: "Tamil",
+    Telugu: "Telugu",
+    Malayalam: "Malayalam",
+    Bengali: "Bengali",
+    Urdu: "Urdu",
+    Kannada: "Kannada",
   };
   const copyToClipboard = () => {
     navigator.clipboard.writeText(summary);
@@ -61,6 +61,8 @@ const AppContextProvider = (props) => {
       }
 
       const url = tab.url;
+      console.log("Sending API request with:", { url, language, wordCount });
+
 
       const apiResponse = await axios.post(
         "http://127.0.0.1:8000/scrape",
